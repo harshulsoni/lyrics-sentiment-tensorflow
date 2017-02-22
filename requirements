@@ -1,0 +1,6 @@
+cython
+gensim
+re
+nltk
+numpy
+tensorflow
