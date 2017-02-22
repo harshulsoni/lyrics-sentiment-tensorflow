@@ -30,7 +30,7 @@ for i in range(len(data_x)):
 	dat=data_x[i:i+1]
 	x_data=[]
 	for sen in dat:		
-		x_data.append(helper_fun.sentence_to_vector(sen, seq[0]))
+		x_data.append(helper_fun.sentence_to_vector(sen, seq[0]+1))
 	seq=np.array(seq)
 	ans=sess.run(myRnnModelpredict['output'], feed_dict={myRnnModelpredict['x']:x_data, myRnnModelpredict['seqlen']:seq})
 	outputs=outputs+list(ans)
