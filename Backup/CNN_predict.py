@@ -28,8 +28,11 @@ outputs=[]
 for i in range(len(data_x)):
 	#seq=seq_len[i:i+1]
 	dat=data_x[i:i+1]
+	if(len(dat[0])<5):
+		continue
 	x_data=[]
 	seq=seq_len[i]
+	#print (dat)
 	for sen in dat:		
 		x_data.append(helper_fun.sentence_to_vector(sen, seq))
 	ans=sess.run(myCnnModelpredict['output'], feed_dict={myCnnModelpredict['x']:x_data, myCnnModelpredict['seqlen']:seq})

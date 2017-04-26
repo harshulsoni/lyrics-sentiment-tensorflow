@@ -33,3 +33,4 @@ max_sequence_len=100
 
 #number of epoch
 num_epoch=500
+num_epoch_CNN=50

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sentiment Analysis</title>
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+  	 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body style="margin: 50px">
+	  <div class="row">
+	    <form class="col s12">
+	      <div class="row">
+	        <div class="input-field col s12">
+	          <textarea id="textarea1" class="materialize-textarea"></textarea>
+	          <label for="textarea1">Textarea</label>
+	        </div>
+	      </div>
+	    </form>
+  	</div>
+	<input type="submit" class="waves-effect waves-light btn">
+	<p style="margin-top: 20px">
+		<ul class="collection">
+		</ul>
+	</p>
+	<script
+			  src="https://code.jquery.com/jquery-3.1.1.min.js"
+			  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+			  crossorigin="anonymous">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.waves-effect').click(function() {
+				var saveData = $.ajax({
+			      type: 'POST',
+			      url: "/",
+			      data: {data: $('#textarea1').val()},
+			      dataType: "text",
+			      success: function(data) {
+			      	$('ul').html('');
+			      	var data = JSON.parse(data)
+			      	$('ul').append('<h1>'+ data.fP + '</h1>')
+			      	for (var key in data['data']) {
+			      		if(data['data'][key][1] === 1)
+			      			$('ul').append('<li class="collection-item"><i class="material-icons">thumb_up</i> ' + data['data'][key][0] + '</li>');
+			      		else
+			      			$('ul').append('<li class="collection-item"><i class="material-icons">thumb_down</i> ' + data['data'][key][0] + '</li>');
+
+					}
+			      }
+				});
+			});
+		});
+	</script>
+</body>
+</html>

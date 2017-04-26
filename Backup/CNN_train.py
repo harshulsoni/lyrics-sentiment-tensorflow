@@ -31,16 +31,18 @@ with open('data/neg.txt', "r") as f:
 
 sess=tf.Session()
 init=tf.initialize_all_variables()
-sess.run(init)
-#myCnnModel['saver'].restore(sess, "trainedmodels/cnn.model")
+#sess.run(init)
+myCnnModel['saver'].restore(sess, "trainedmodels/cnn.model")
 
-for i in range(CNN_model.parameters.num_epoch):
+min_loss=12.9971228877
+
+for i in range(CNN_model.parameters.num_epoch_CNN):
 	idx=list(range(len(train_x)))
 	random.shuffle(idx)
 	train_x=[train_x[i] for i in idx]
 	train_y=[train_y[i] for i in idx]
 	seq_len=[seq_len[i] for i in idx]
-	print ("training epoch", i+1, "of", CNN_model.parameters.num_epoch)
+	print ("training epoch", i+1, "of", CNN_model.parameters.num_epoch_CNN)
 	z=len(train_x)
 	j=0
 	epoch_loss=0
@@ -57,11 +59,14 @@ for i in range(CNN_model.parameters.num_epoch):
 		_, loss=sess.run([myCnnModel['minimizer'], myCnnModel['loss']], feed_dict={myCnnModel['x']:data_x, myCnnModel['seqlen']: max_len,myCnnModel['y']:y_train})
 		epoch_loss+=loss
 	print ("Epoch: ", i+1, "completed. Loss: ", epoch_loss)
-	if i%10==0:
+	#if (i+1)%10==0:
+	if epoch_loss<min_loss:
+		min_loss=epoch_loss
 		myCnnModel['saver'].save(sess, "trainedmodels/cnn.model")
 	if epoch_loss<=5.0:
 		break
 myCnnModel['saver'].save(sess, "trainedmodels/cnn.model")
 
+print (min_loss)
 
 #best Loss:  37.5073378573
